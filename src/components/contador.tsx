@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 const Contador: React.FC = () => {
   const calculateTimeLeft = () => {
     const targetDate = new Date(
-      new Date("2025-11-30T14:00:00").toLocaleString("en-US", {
+      new Date("2025-11-30T15:00:00").toLocaleString("en-US", {
         timeZone: "America/Mexico_City",
       })
     );
@@ -67,6 +67,27 @@ const Contador: React.FC = () => {
             </span>
           </div>
         ))}
+      </div>
+
+      {/* SOLO Google Calendar */}
+      <div className="mt-10 flex flex-col gap-4">
+        <a
+          href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Baby+Shower&details=¡Acompáñanos+en+el+Baby+Shower!&dates=20251130T210000Z/20251201T000000Z"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-semibold px-6 py-3 rounded-2xl shadow-xl transition transform hover:scale-105 active:scale-95"
+        >
+          {/* Icono Google Calendar */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            className="w-6 h-6"
+          >
+            <path d="M19 4h-1V2h-2v2H8V2H6v2H5C3.9 4 3 4.9 3 6v13c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 15H5V10h14v9zm0-11H5V6h14v2z" />
+          </svg>
+          Agregar a Google Calendar
+        </a>
       </div>
 
       <style>{`

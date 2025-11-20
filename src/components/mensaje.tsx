@@ -233,6 +233,8 @@ const Mensaje: React.FC<Props> = ({ children, papa, mama }) => {
           Fecha:{" "}
           <span className="text-[#ffffff] font-bold mt-12 italic">
             Domingo, 30 de Noviembre de 2025
+            <br />
+            Hora: 15:00 hrs (3:00 PM)
           </span>
         </p>
       </div>
