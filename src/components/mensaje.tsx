@@ -1,9 +1,14 @@
 /** @format */
 
+// Mensaje.tsx (versión con imágenes agregadas)
+
 import React, { useEffect, useRef, useState } from "react";
 import Button from "./Button";
 import Ubicacion from "./ubicacion";
 import Contador from "./contador";
+import bebe from "../assets/bebe1.png";
+import bebe2 from "../assets/bb2.png";
+import ultra from "../assets/descarga.jpg";
 
 type Props = {
   children?: React.ReactNode;
@@ -13,11 +18,20 @@ type Props = {
 
 const Mensaje: React.FC<Props> = ({ children, papa, mama }) => {
   const [isPlaying, setIsPlaying] = useState(true);
-  const [entered, setEntered] = useState(false); // <-- control entrada
+  const [entered, setEntered] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  const bebe1 = bebe;
+  const bebe3 = bebe2;
+  const ultrasonido = ultra;
+
+  const urlpapa =
+    "https://wa.me/527224447601?text=%C2%A1Hola%21+Quiero+confirmar+mi+asistencia+al+baby+shower+bajo+una+lluvia+de+amor+";
+
+  const urlmama =
+    "https://wa.me/527206733116?text=%C2%A1Hola%21+Quiero+confirmar+mi+asistencia+al+baby+shower+bajo+una+lluvia+de+amor+";
+
   useEffect(() => {
-    // disparar la animación de entrada apenas monte el componente
     const t = window.setTimeout(() => setEntered(true), 60);
     return () => clearTimeout(t);
   }, []);
@@ -48,10 +62,12 @@ const Mensaje: React.FC<Props> = ({ children, papa, mama }) => {
 
   const handleClick = () => {
     alert("Gracias por confirmar tu asistencia 🎉");
+    window.location.href = urlpapa;
   };
 
-  const handleDecline = () => {
-    alert("No asistirás 😢");
+  const handleClickMom = () => {
+    alert("Gracias por confirmar tu asistencia 🎉");
+    window.location.href = urlmama;
   };
 
   const toggleMusic = () => {
@@ -71,7 +87,6 @@ const Mensaje: React.FC<Props> = ({ children, papa, mama }) => {
     "Acompáñanos a compartir este momento tan especial mientras esperamos la llegada de nuestro angelito 💕",
   ];
 
-  // delays (en segundos) para stagger
   const delays = {
     title: 0.18,
     text1: 0.36,
@@ -85,7 +100,19 @@ const Mensaje: React.FC<Props> = ({ children, papa, mama }) => {
 
   return (
     <div className="w-full max-w-[620px] mx-auto p-6 sm:p-10 rounded-3xl shadow-xl text-center relative z-10 transition-all duration-500 bg-cover bg-center bg-no-repeat overflow-hidden">
-      {/* 🌸 Detalles animados de bebé (entrada + animaciones contínuas) */}
+      <div
+        className={`flex justify-center gap-6 mt-4 ${
+          entered ? "enter-raise" : "enter-hidden"
+        }`}
+        style={{ animationDelay: `${delays.title - 0.1}s` }}
+      >
+        <img
+          src={bebe1}
+          alt="Bebé niña"
+          className="w-32 sm:w-40 drop-shadow-lg rounded-xl animate-bounce-baby"
+        />
+      </div>
+
       <span
         className={`absolute top-6 left-6 text-4xl text-pink-300 transform-gpu pointer-events-none ${
           entered ? "enter-pop" : "enter-hidden"
@@ -136,12 +163,10 @@ const Mensaje: React.FC<Props> = ({ children, papa, mama }) => {
         🎠
       </span>
 
-      {/* 🔊 Botón de música */}
       <button
         onClick={toggleMusic}
         title={isPlaying ? "Pausar música" : "Reproducir música"}
-        className={`absolute top-4 right-4 flex flex-col items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-lg transition-all duration-300 border border-white/40 backdrop-blur-sm cursor-pointer group
-        ${
+        className={`absolute top-4 right-4 flex flex-col items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-lg transition-all duration-300 border border-white/40 backdrop-blur-sm cursor-pointer group ${
           isPlaying
             ? "bg-gradient-to-br from-pink-400 to-rose-400 animate-pulse text-white shadow-pink-300"
             : "bg-gradient-to-br from-gray-100 to-pink-100 hover:from-pink-200 hover:to-rose-200 text-pink-500"
@@ -160,22 +185,20 @@ const Mensaje: React.FC<Props> = ({ children, papa, mama }) => {
 
         {!isPlaying && (
           <span className="text-[10px] sm:text-xs mt-1 text-pink-600 font-semibold animate-press-hint">
-            ¡Presíname!
+            ¡Dale Click!
           </span>
         )}
       </button>
 
-      {/* 💌 Título */}
       <h1
-        className={`text-3xl sm:text-4xl text-[#ffffff] font-bold mt-12 italic drop-shadow-sm transform-gpu ${
+        className={`text-3xl sm:text-4xl text-[#ffffff] font-bold mt-8 italic drop-shadow-sm transform-gpu ${
           entered ? "enter-raise" : "enter-hidden"
         }`}
         style={{ animationDelay: `${delays.title}s` }}
       >
-        {children} {papa} & {mama}
+        {children} {mama} & {papa}
       </h1>
 
-      {/* ✨ Texto de invitación */}
       <div className="mt-6 space-y-4">
         <p
           className={`text-lg sm:text-xl text-[#ffffff] leading-relaxed transform-gpu ${
@@ -185,6 +208,12 @@ const Mensaje: React.FC<Props> = ({ children, papa, mama }) => {
         >
           {invitacion[0]}
         </p>
+
+        <img
+          src={ultrasonido}
+          alt="Ultrasonido"
+          className="mx-auto rounded-lg shadow bg-transparent"
+        />
 
         <p
           className={`text-lg sm:text-xl text-[#ffffff] leading-relaxed transform-gpu ${
@@ -202,16 +231,23 @@ const Mensaje: React.FC<Props> = ({ children, papa, mama }) => {
           style={{ animationDelay: `${delays.fecha}s` }}
         >
           Fecha:{" "}
-          <span className=" text-[#ffffff] font-bold mt-12 italic">
+          <span className="text-[#ffffff] font-bold mt-12 italic">
             Domingo, 30 de Noviembre de 2025
           </span>
         </p>
       </div>
 
-      <div>
-        <Contador></Contador>
+      {/* CONTADOR */}
+      <div className="mt-6">
+        <Contador />
+        <img
+          src={bebe3}
+          alt="Bebé niña 2"
+          className="sm:w-40 drop-shadow-lg rounded-xl animate-bounce-baby mx-auto mt-4"
+        />
       </div>
-      {/* 📍 Ubicación */}
+
+      {/* UBICACIÓN */}
       <div
         className={`${entered ? "enter-fade-up" : "enter-hidden"} mt-6`}
         style={{ animationDelay: `${delays.ubicacion}s` }}
@@ -219,7 +255,7 @@ const Mensaje: React.FC<Props> = ({ children, papa, mama }) => {
         <Ubicacion />
       </div>
 
-      {/* 💕 Mensaje final */}
+      {/* MENSAJE FINAL */}
       <p
         className={`mt-6 px-6 py-4 rounded-2xl border border-pink-200 bg-gradient-to-br from-white/60 via-pink-50 to-rose-50 shadow-md text-center text-base sm:text-lg text-[#f800d7] leading-relaxed italic transform-gpu ${
           entered ? "enter-raise-soft" : "enter-hidden"
@@ -236,133 +272,25 @@ const Mensaje: React.FC<Props> = ({ children, papa, mama }) => {
         </span>
       </p>
 
-      {/* 🎀 Botones */}
+      {/* BOTONES */}
       <div
         className={`flex flex-col sm:flex-row justify-center gap-4 mt-10 transform-gpu ${
           entered ? "enter-buttons" : "enter-hidden"
         }`}
         style={{ animationDelay: `${delays.buttons}s` }}
       >
-        <Button onClick={handleClick}>Confirmar Asistencia 🎀</Button>
-        <Button onClick={handleDecline}>No asistiré 💌</Button>
+        <Button onClick={handleClick}>Confirmar Asistencia papá 🎀</Button>
+        <Button onClick={handleClickMom}>Confirmar Asistencia mamá 💌</Button>
       </div>
 
-      {/* Animaciones CSS */}
+      {/* ANIMACIONES EXTRA */}
       <style>{`
-        /* ---------- Entradas ---------- */
         .enter-hidden { opacity: 0; }
-
-        @keyframes fadeUp {
-          0% { opacity: 0; transform: translateY(18px) scale(0.995); }
-          100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        @keyframes fadeUpSoft {
-          0% { opacity: 0; transform: translateY(10px) scale(0.998); }
-          100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        @keyframes popIn {
-          0% { opacity: 0; transform: translateY(6px) scale(0.86) rotate(-6deg); }
-          60% { transform: translateY(-6px) scale(1.08) rotate(4deg); opacity: 1; }
-          100% { transform: translateY(0) scale(1) rotate(0deg); }
-        }
-        @keyframes popInSlight {
-          0% { opacity: 0; transform: translateY(6px) scale(0.92) rotate(-4deg); }
-          60% { transform: translateY(-4px) scale(1.04) rotate(3deg); opacity: 1; }
-          100% { transform: translateY(0) scale(1) rotate(0deg); }
-        }
-        @keyframes slideInLeft {
-          0% { opacity: 0; transform: translateX(-28px) translateY(-50%) scale(0.98); }
-          100% { opacity: 1; transform: translateX(0) translateY(-50%) scale(1); }
-        }
-        @keyframes fadeIn {
-          0% { opacity: 0; }
-          100% { opacity: 1; }
-        }
-        @keyframes buttonsPop {
-          0% { opacity: 0; transform: translateY(18px) scale(0.96); }
-          60% { transform: translateY(-6px) scale(1.02); opacity: 1; }
-          100% { transform: translateY(0) scale(1); }
-        }
-
-        /* clases que aplican las animaciones (se usan con inline animationDelay) */
-        .enter-raise {
-          animation: fadeUp 550ms cubic-bezier(.2,.9,.2,1) both;
-        }
-        .enter-raise-soft {
-          animation: fadeUpSoft 480ms cubic-bezier(.2,.9,.2,1) both;
-        }
-        .enter-pop {
-          animation: popIn 640ms cubic-bezier(.2,.9,.25,1) both;
-        }
-        .enter-pop-slight {
-          animation: popInSlight 620ms cubic-bezier(.2,.9,.25,1) both;
-        }
-        .enter-slide {
-          animation: slideInLeft 720ms cubic-bezier(.2,.9,.25,1) both;
-        }
-        .enter-fade {
-          animation: fadeIn 420ms ease both;
-        }
-        .enter-fade-up {
-          animation: fadeUpSoft 520ms ease both;
-        }
-        .enter-buttons {
-          animation: buttonsPop 720ms cubic-bezier(.2,.9,.2,1) both;
-        }
-
-        /* ---------- Animaciones contínuas ya existentes ---------- */
-        @keyframes pressHint {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.6; transform: scale(1.2); }
-        }
-
-        @keyframes bounceSlow {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-
-        @keyframes spinSlow {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-
-        .animate-press-hint { animation: pressHint 1.3s infinite ease-in-out; }
-        .animate-bounce-slow { animation: bounceSlow 1.8s infinite ease-in-out; }
-        .animate-spin-slow { animation: spinSlow 4s linear infinite; }
-
-        /* 🍼 Detalles bebé (continúa con pequeñas animaciones) */
         @keyframes bounceBaby {
           0%, 100% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-8px) rotate(5deg); }
+          50% { transform: translateY(-8px) rotate(4deg); }
         }
         .animate-bounce-baby { animation: bounceBaby 3s ease-in-out infinite; }
-
-        @keyframes bottleBaby {
-          0%, 100% { transform: rotate(0deg); opacity: 0.85; }
-          50% { transform: rotate(-12deg); opacity: 1; }
-        }
-        .animate-bottle-baby { animation: bottleBaby 4s ease-in-out infinite; }
-
-        @keyframes footBaby {
-          0%, 100% { opacity: 0.78; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.16); }
-        }
-        .animate-foot-baby { animation: footBaby 3s ease-in-out infinite; }
-
-        @keyframes heartBaby {
-          0%, 100% { transform: scale(1); opacity: 0.75; }
-          50% { transform: scale(1.28); opacity: 1; }
-        }
-        .animate-heart-baby { animation: heartBaby 2.8s ease-in-out infinite; }
-
-        @keyframes rattleBaby {
-          0%, 100% { transform: rotate(0deg); opacity: 0.6; }
-          50% { transform: rotate(15deg); opacity: 1; }
-        }
-        .animate-rattle-baby { animation: rattleBaby 5s ease-in-out infinite; }
-
-        /* Small GPU hint to make transitions smoother */
-        .transform-gpu { will-change: transform, opacity; }
       `}</style>
     </div>
   );

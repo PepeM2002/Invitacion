@@ -39,7 +39,7 @@ const Target = () => {
           ✦
         </span>
       ))}
-      <Mensaje papa="Angel Fernando" mama="Karen !">
+      <Mensaje mama="Karen" papa="Angel !">
         ¡Estás invitado(a) al Baby Shower de
       </Mensaje>
 
